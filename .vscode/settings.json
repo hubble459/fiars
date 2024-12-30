@@ -1,5 +1,20 @@
 {
     "cSpell.words": [
-        "cprintln"
+        "codegen",
+        "cprintln",
+        "debuginfo",
+        "fiars",
+        "getch",
+        "hehe",
+        "rpath"
+    ],
+    "cSpell.ignorePaths": [
+        "package-lock.json",
+        "node_modules",
+        "vscode-extension",
+        ".git",
+        ".vscode",
+        ".vscode-insiders",
+        "target"
     ]
 }
