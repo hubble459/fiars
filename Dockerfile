@@ -18,7 +18,7 @@ RUN cargo chef cook --recipe-path recipe.json --release
 COPY . .
 RUN cargo build -r
 RUN strip /app/target/release/fiars
-RUN upx --best /app/target/release/fiars
+RUN upx --ultra-brute --no-lzma /app/target/release/fiars
 
 # (5) runtime image, you can use any base image you want
 FROM scratch AS runtime
