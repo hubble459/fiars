@@ -1,7 +1,7 @@
 # (1) installing cargo-chef & build deps
 FROM rust:alpine AS chef
 WORKDIR /app
-RUN apk add --no-cache musl-dev openssl-dev
+RUN apk add --no-cache musl-dev openssl-dev upx
 RUN cargo install --locked cargo-chef
 
 # (2) preparing recipe file
@@ -18,6 +18,7 @@ RUN cargo chef cook --recipe-path recipe.json --release
 COPY . .
 RUN cargo build -r
 RUN strip /app/target/release/fiars
+RUN upx --best /app/target/release/fiars
 
 # (5) runtime image, you can use any base image you want
 FROM scratch AS runtime
