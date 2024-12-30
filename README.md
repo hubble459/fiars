@@ -14,6 +14,12 @@ To run the project, use the following command:
 cargo run
 ```
 
+Or run it in Docker
+
+```sh
+docker run --rm -it ghcr.io/hubble459/fiars:main
+```
+
 ## Building the Project
 
 To build the project in release mode, use the following command:
