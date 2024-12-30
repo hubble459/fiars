@@ -32,7 +32,7 @@ fn clear_ui() {
     print!("\x1B[2J\x1B[1;1H");
 }
 
-pub(crate) fn print_ui(board: &Board, bot: BotDifficulty) {
+pub(crate) fn print_ui(board: &Board, bot: &BotDifficulty) {
     clear_ui();
 
     print!("|");

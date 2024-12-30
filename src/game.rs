@@ -11,7 +11,7 @@ pub fn start_game() {
     let mut bot_difficulty: BotDifficulty = BotDifficulty::Off;
 
     loop {
-        tui::print_ui(&board, bot_difficulty);
+        tui::print_ui(&board, &bot_difficulty);
 
         match tui::get_command() {
             Command::Quit => break,
@@ -24,9 +24,9 @@ pub fn start_game() {
                 Ok(index) => {
                     match check_if_game_over(&board, &turn, index) {
                         Some(state) => {
-                            tui::print_ui(&board, bot_difficulty);
+                            tui::print_ui(&board, &bot_difficulty);
 
-                            if handle_game_over(state, bot_difficulty) {
+                            if handle_game_over(state, &bot_difficulty) {
                                 reset_game(&mut board, &mut turn);
                             } else {
                                 break;
@@ -34,13 +34,13 @@ pub fn start_game() {
                         }
                         None => {
                             if bot_difficulty != BotDifficulty::Off {
-                                let index = bot::bot_move(&mut board, bot_difficulty);
+                                let index = bot::bot_move(&mut board, &bot_difficulty);
                                 if let Some(state) =
                                     check_if_game_over(&board, &CellState::PlayerTwo, index)
                                 {
-                                    tui::print_ui(&board, bot_difficulty);
+                                    tui::print_ui(&board, &bot_difficulty);
 
-                                    if handle_game_over(state, bot_difficulty) {
+                                    if handle_game_over(state, &bot_difficulty) {
                                         reset_game(&mut board, &mut turn);
                                     } else {
                                         break;
@@ -161,14 +161,14 @@ fn make_move(board: &mut Board, turn: CellState, row: usize) -> Result<usize, St
     }
 }
 
-fn handle_game_over(state: GameOver, bot_difficulty: BotDifficulty) -> bool {
+fn handle_game_over(state: GameOver, bot_difficulty: &BotDifficulty) -> bool {
     match state {
         GameOver::Draw => println!("It's a draw!"),
         GameOver::Winner(cell_state) => match cell_state {
             CellState::Empty => unreachable!(),
             CellState::PlayerOne => println!("Player one wins!"),
             CellState::PlayerTwo => {
-                if bot_difficulty == BotDifficulty::Off {
+                if bot_difficulty == &BotDifficulty::Off {
                     println!("Player two wins!")
                 } else {
                     println!("The bot wins!")
@@ -238,7 +238,7 @@ mod test {
         for i in 0..SIZE {
             if board[i] != CellState::Empty {
                 let game_over = check_if_game_over(&board, &board[i], i);
-                assert!(game_over.is_none(), "index: {}, winner: {:?}", i, game_over);
+                assert!(game_over.is_none());
             }
         }
     }

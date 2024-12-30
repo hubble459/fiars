@@ -1,13 +1,13 @@
 use crate::{game, Board, BotDifficulty, CellState, WIDTH};
 use rand::prelude::*;
 
-pub(crate) fn bot_move(board: &mut Board, difficulty: BotDifficulty) -> usize {
-    let best_move = get_best_move(&board, difficulty);
+pub(crate) fn bot_move(board: &mut Board, difficulty: &BotDifficulty) -> usize {
+    let best_move = get_best_move(&board, &difficulty);
     board[best_move] = CellState::PlayerTwo;
     return best_move;
 }
 
-fn get_best_move(board: &Board, difficulty: BotDifficulty) -> usize {
+fn get_best_move(board: &Board, difficulty: &BotDifficulty) -> usize {
     // count is always uneven, but div by 2 floors the number
     let count_moves = board.iter().filter(|c| c != &&CellState::Empty).count() / 2;
 
@@ -119,9 +119,9 @@ mod test {
                 break;
             }
 
-            let index = get_best_move(&board, BotDifficulty::Easy);
+            let index = get_best_move(&board, &BotDifficulty::Easy);
             board[index] = CellState::PlayerTwo;
-            tui::print_ui(&board, BotDifficulty::Easy);
+            tui::print_ui(&board, &BotDifficulty::Easy);
 
             if let Some(_) = game::check_if_game_over(&board, &CellState::PlayerTwo, index) {
                 println!("Player 2 wins!");

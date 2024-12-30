@@ -19,20 +19,20 @@ pub const DIRECTIONS: [(isize, isize); 4] = [
     (-1, 1), // Diagonal TR-BL
 ];
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub(crate) enum CellState {
     Empty,
     PlayerOne,
     PlayerTwo,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(PartialEq, Eq)]
 pub(crate) enum GameOver {
     Draw,
     Winner(CellState),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(PartialEq, Eq)]
 pub(crate) enum Command {
     Quit,
     Bot,
@@ -40,7 +40,7 @@ pub(crate) enum Command {
     Move(usize),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, strum::AsRefStr, strum::FromRepr, Default)]
+#[derive(Default, PartialEq, Eq, strum::AsRefStr, strum::FromRepr)]
 #[repr(u8)]
 pub(crate) enum BotDifficulty {
     #[strum(serialize = "off")]
