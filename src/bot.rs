@@ -77,7 +77,7 @@ fn recursive_check_outcome(
         None => {
             let mut score = 1.0;
 
-            if depth == 4 {
+            if depth == 5 {
                 return score;
             }
 
