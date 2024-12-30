@@ -19,7 +19,7 @@ COPY . .
 RUN cargo build -r
 
 # (5) runtime image, you can use any base image you want
-FROM alpine:latest AS runtime
+FROM scratch AS runtime
 WORKDIR /app
 COPY --from=builder /app/target/release/fiars /app/fiars
 CMD ["/app/fiars"]
