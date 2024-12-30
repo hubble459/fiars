@@ -17,6 +17,7 @@ RUN cargo chef cook --recipe-path recipe.json --release
 # (4) actual project build
 COPY . .
 RUN cargo build -r
+RUN strip /app/target/release/fiars
 
 # (5) runtime image, you can use any base image you want
 FROM scratch AS runtime
