@@ -78,19 +78,21 @@ fn recursive_check_outcome(
             let mut score = 1.0;
 
             if depth == 5 {
-                return score;
+                return 0.8;
             }
+
+            let flipped_cell_state = if cell_state == CellState::PlayerOne {
+                CellState::PlayerTwo
+            } else {
+                CellState::PlayerOne
+            };
 
             for row in 0..WIDTH {
                 if let Ok(index) = game::get_last_in_row(&board, row) {
                     let nested_score = recursive_check_outcome(
                         board.clone(),
                         index,
-                        if cell_state == CellState::PlayerOne {
-                            CellState::PlayerTwo
-                        } else {
-                            CellState::PlayerOne
-                        },
+                        flipped_cell_state,
                         depth + 1,
                     );
                     score = (score + nested_score) / 2.0;
