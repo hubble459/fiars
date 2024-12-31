@@ -1,5 +1,5 @@
-use color_print::cstr;
-use std::fmt::Display;
+use std::fmt;
+use std::fmt::{Display, Formatter};
 
 pub(crate) mod bot;
 pub mod game;
@@ -40,20 +40,31 @@ pub(crate) enum Command {
     Move(usize),
 }
 
-#[derive(Default, PartialEq, Eq, strum::AsRefStr, strum::FromRepr)]
+#[derive(Default, PartialEq, Eq)]
 #[repr(u8)]
 pub(crate) enum BotDifficulty {
-    #[strum(serialize = "off")]
     #[default]
     Off = 0,
-    #[strum(serialize = "easy")]
     Easy = 1,
-    #[strum(serialize = "normal")]
     Normal = 2,
-    #[strum(serialize = "difficult")]
     Difficult = 3,
-    #[strum(serialize = "expert")]
     Expert = 4,
+}
+
+impl Display for BotDifficulty {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                BotDifficulty::Off => "off",
+                BotDifficulty::Easy => "easy",
+                BotDifficulty::Normal => "normal",
+                BotDifficulty::Difficult => "difficult",
+                BotDifficulty::Expert => "expert"
+            }
+        )
+    }
 }
 
 impl Display for CellState {
@@ -63,8 +74,8 @@ impl Display for CellState {
             "{}",
             match self {
                 CellState::Empty => " ",
-                CellState::PlayerOne => cstr!("<green>X</green>"),
-                CellState::PlayerTwo => cstr!("<red>O</red>"),
+                CellState::PlayerOne => "\x1b[32mX\x1b[0m",
+                CellState::PlayerTwo => "\x1b[31mO\x1b[0m",
             }
         )
     }

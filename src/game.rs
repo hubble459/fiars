@@ -1,5 +1,3 @@
-use color_print::cprintln;
-
 use crate::{
     bot, tui, Board, BotDifficulty, CellState, Command, GameOver, DIRECTIONS, I_HEIGHT, I_WIDTH,
     SIZE, WIDTH,
@@ -16,8 +14,7 @@ pub fn start_game() {
         match tui::get_command() {
             Command::Quit => break,
             Command::Bot => {
-                bot_difficulty =
-                    BotDifficulty::from_repr(bot_difficulty as u8 + 1).unwrap_or_default()
+                bot_difficulty = change_difficulty(bot_difficulty)
             }
             Command::Reset => reset_game(&mut board, &mut turn),
             Command::Move(row) => match make_move(&mut board, turn, row) {
@@ -57,12 +54,22 @@ pub fn start_game() {
                     };
                 }
                 Err(message) => {
-                    cprintln!("<red>{}</>", message);
+                    println!("\x1b[31m{}\x1b[0m", message);
                     println!("Press any key to continue...");
                     tui::pause();
                 }
             },
         }
+    }
+}
+
+fn change_difficulty(bot_difficulty: BotDifficulty) -> BotDifficulty {
+    match bot_difficulty {
+        BotDifficulty::Off => BotDifficulty::Easy,
+        BotDifficulty::Easy => BotDifficulty::Normal,
+        BotDifficulty::Normal => BotDifficulty::Difficult,
+        BotDifficulty::Difficult => BotDifficulty::Expert,
+        BotDifficulty::Expert => BotDifficulty::Off
     }
 }
 
