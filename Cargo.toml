@@ -4,11 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-color-print = "0.3.7"
-getch = "0.3.1"
-lazy_static = "1.5.0"
-rand = "0.8.5"
-strum = { version = "0.26.3", features = ["derive"] }
+getch = "0.3"
+fastrand = "2.3"
 
 [profile.release]
 opt-level = 3

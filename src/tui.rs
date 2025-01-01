@@ -1,14 +1,9 @@
 use crate::{Board, BotDifficulty, Command, WIDTH};
-use color_print::cprintln;
 use getch::Getch;
-
-lazy_static::lazy_static! {
-    static ref GETCH: Getch = Getch::new();
-}
 
 pub(crate) fn get_command() -> Command {
     loop {
-        let input = GETCH.getch().unwrap();
+        let input = read_key();
         match input.to_ascii_lowercase() {
             b'q' => return Command::Quit,
             b'b' => return Command::Bot,
@@ -20,11 +15,15 @@ pub(crate) fn get_command() -> Command {
 }
 
 pub(crate) fn confirm() -> bool {
-    let input = GETCH.getch().unwrap();
+    let input = read_key();
     match input.to_ascii_lowercase() {
         b'n' => return false,
         _ => return true,
     }
+}
+
+fn read_key() -> u8 {
+    Getch::new().getch().unwrap()
 }
 
 fn clear_ui() {
@@ -53,12 +52,12 @@ pub(crate) fn print_ui(board: &Board, bot: &BotDifficulty) {
 
     println!();
     println!("{}", "=".repeat(WIDTH * 2 + 1));
-    cprintln!(
-        "<bold,red>q</>uit <bold,green>r</>eset <bold,blue>b</>ot={}",
-        bot.as_ref()
+    println!(
+        "\x1b[1;31mq\x1b[0muit \x1b[1;32mr\x1b[0meset \x1b[1;34mb\x1b[0mot={}",
+        bot
     );
 }
 
 pub(crate) fn pause() {
-    GETCH.getch().ok();
+    Getch::new().getch().ok();
 }

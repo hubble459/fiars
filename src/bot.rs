@@ -1,5 +1,4 @@
 use crate::{game, Board, BotDifficulty, CellState, WIDTH};
-use rand::prelude::*;
 
 pub(crate) fn bot_move(board: &mut Board, difficulty: &BotDifficulty) -> usize {
     let best_move = get_best_move(&board, &difficulty);
@@ -39,16 +38,17 @@ fn get_best_move(board: &Board, difficulty: &BotDifficulty) -> usize {
                 return scores[0].0;
             };
 
-            let mut rng = rand::thread_rng();
             let length = scores.len();
 
             match difficulty {
-                BotDifficulty::Easy => scores[rng.gen_range(0..length)].0,
+                BotDifficulty::Easy => scores[fastrand::usize(0..length)].0,
                 BotDifficulty::Normal => {
-                    scores[rng.gen_range(0..(length.saturating_sub(length / 2).max(1)))].0
+                    let number = fastrand::usize(0..(length.saturating_sub(length / 2).max(1)));
+                    scores[number].0
                 }
                 BotDifficulty::Difficult => {
-                    scores[rng.gen_range(0..(length.saturating_sub(length / 4).max(1)))].0
+                    let number = fastrand::usize(0..(length.saturating_sub(length / 4).max(1)));
+                    scores[number].0
                 }
                 BotDifficulty::Expert => scores[0].0,
                 BotDifficulty::Off => unreachable!(),
